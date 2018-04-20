@@ -1,0 +1,11 @@
+Flask
+flask_jwt
+Flask-RESTful
+flask-cors
+sqlalchemy
+gunicorn
+werkzeug
+requests
+
+redis
+celery

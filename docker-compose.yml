@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  labs-iam:
+    image: aossama/labs-iam:latest
+    build:
+      context: .
+      args:
+        - service=iam
+    container_name: labs-iam
+    environment:
+      - ENV_SETTINGS=/srv/conf/dev.cfg
+    expose:
+      - "8000"
+    ports:
+      - "8001:8000"
+
+  labs-auth:
+    image: aossama/labs-auth:latest
+    build:
+      context: .
+      args:
+        - service=auth
+    container_name: labs-auth
+    environment:
+      - ENV_SETTINGS=/srv/conf/dev.cfg
+    expose:
+      - "8000"
+    ports:
+      - "8002:8000"
+    links:
+      - labs-iam
+
+  labs-labs:
+    image: aossama/labs-labs:latest
+    build:
+      context: .
+      args:
+        - service=labs
+    container_name: labs-labs
+    environment:
+      - ENV_SETTINGS=/srv/conf/dev.cfg
+    expose:
+      - "8000"
+    ports:
+      - "8003:8000"
+
+  labs-ui:
+    image: aossama/labs-ui:latest
+    build:
+      context: .
+      args:
+        - service=ui
+    container_name: labs-ui
+    environment:
+      - ENV_SETTINGS=/srv/conf/dev.cfg
+    expose:
+      - "80"
+    ports:
+      - "8000:80"
+    links:
+      - labs-iam
+      - labs-auth
+      - labs-labs
